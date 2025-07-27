@@ -1,0 +1,77 @@
+// CIS-200-LAB 5 -DemetriusJohnson.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+/*
+//Author: Demetrius E Johnson
+//Date: 19 FEB 2021
+//Last Modification Date: 2-19-2021
+//Purpose: create a data type and output its data member contents
+
+
+*/
+
+/*
+Question 1: User-defined Data Type
+
+Define your own data type, REAL44, which means a 4-by-4 float array.
+
+Then, in your main( ), create two instances of this data type:
+
+REAL44 a, b;
+
+for(int i=0; i<4; i++)
+     for(int j=0; j<4; j++)
+    {
+             a[i][j] = i*j;
+             cout << a[i][j] << “   “;
+     }
+
+
+Create a screenshot of the running result.
+
+*/
+
+
+
+#include <iostream>
+#include<assert.h>
+#define ROW 4
+#define COL 4
+using namespace std;
+
+
+//CLASS DECLARATION
+
+struct REAL44 { float RealNumber[ROW][COL]; };
+
+//CLASS DECLARATION
+
+
+
+int main()
+{
+
+    cout << "----WELCOME TO THE SIMPLE 4X4 ARRAY OUTPUT PROGRAM------BY Demetrius Johnson\n\n\n";
+
+
+
+    REAL44 a, b;
+
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+        {
+            a.RealNumber[i][j] = i * j;
+            cout << a.RealNumber[i][j] << "   ";
+        }
+
+
+
+
+    cout << endl << endl << "The program has finished execution....now exiting...thank you....\n\n";
+    system("pause");
+
+    return 0;
+}
+
+
+

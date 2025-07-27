@@ -1,0 +1,101 @@
+// CIS-200-LAB 4 -DemetriusJohnson.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+/*
+//Author: Demetrius E Johnson
+//Date: 12 FEB 2021
+//Last Modification Date: 2-12-2021
+//Purpose: Cryptography program that takes advantage of arrays and char numbers through ASCII standard
+
+
+*/
+
+/*
+Question 4
+
+In cryptography, Caesar cipher is one of the simplest encryption techniques. 
+The key idea of this method is to replace each plaintext letter with one fixed number of places down the alphabet. 
+Below is an example with a shift of two:
+
+Plain:     ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
+Cipher:  CDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzAB
+
+To cipher a string, ‘A’ is replaced by ‘C’, ‘B’ is substituted by ‘D’, and so on. To decode a string, ‘A’ is replaced by ‘y’, etc.
+
+Write a program that takes a char array: “Merry Christmas and Happy New Year.” as an input, encodes the content, and outputs the encoded content to another char array.  
+Print out the content of the new array on computer screen and make a screenshot.
+
+
+*/
+
+
+
+#include <iostream>
+#define STRING_SIZE 35 //size of the sentence to be ciphered (including spaces) //remember: char arrays are not automatically NULL terminated, only string literals
+using namespace std;
+
+int main()
+{
+
+    cout << "----WELCOME to the Simple Cryptography Two-letter Shift program------BY Demetrius Johnson-------\n\n";
+
+    cout << "This program will encode the following sentence \"Merry Chistmas and Happy New Year\".\n";
+    cout << "The cipher algorithm takes every letter from the normal alphabet and shifts it by two letters.\n\n";
+    cout << "Below is the plain text and the encoded version of that plain text (the cipher):\n\n";
+    cout << " Plain Text:     ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\n";
+    cout << " Ciphered text:  CDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzAB\n\n";
+    cout << "For example: 'A' is replaced by 'C' ('A' is shifted over/down the alphabet two characters --> 'C').\n\n\n";
+    cout << "Inputting:\t   'Merry Christmas and Happy New Year'\n\nYields the output: '";
+
+
+    char original[STRING_SIZE] = "Merry Christmas and Happy New Year"; //remember: char arrays are not automatically NULL terminated, only string literals; 
+                                                                       //so to initialize this array using a string literal I needed to do size + 1 since the last char will be the NULLCHAR character.
+    char ciphered[STRING_SIZE]; //this is where the ciphered string will be stored
+
+    int shift_TWO = 2; //shifts the value forward (letter) by a value of 2
+    int shift_TO_LOWER = 6; //shift forward to upper case letters
+    int shift_TO_UPPER = -58; //go from end of lower case letters (beginning at 'y') back to upper case letters
+    
+    //NOTE ASCII TABLE: letters A-Z == Decimal 65-90; a-z == Decimal 97-122 (separation of 7 units between 'Z' and 'a')
+    for (int count = 0; count < STRING_SIZE; count++) { //remember string size includes the NULL CHAR at the last element
+
+
+        if (original[count] == 32) { //32 == ' ' (empty space char)
+
+            ciphered[count] = 32;
+            cout << ciphered[count];
+
+        }
+        else if (original[count] > 64 && original[count] < 89) { //65 - 88 == A - X //for Y and Z we need to account for jumping to 'a' and 'b' which begin at 97
+        
+            ciphered[count] = (original[count] + shift_TWO);
+            cout << ciphered[count];
+        }
+        else if (original[count] == 89 || original[count] == 90) { //handle case where shift forward two jumps from upper case to lower case letters
+
+            ciphered[count] = (original[count]) + (shift_TWO + shift_TO_LOWER); //plus 6 (shift to lower) to jump to lower case letter range which begin at 97
+            cout << ciphered[count];
+        }
+        else if (original[count] > 96 && original[count] < 121) { //97 - 120 == a - x //for 'y' and 'z' we need to handle the wrap-around case and jump back to Upper cased letters
+
+            ciphered[count] = (original[count] + shift_TWO);
+            cout << ciphered[count];
+        }
+        else if (original[count] == 121 || original[count] == 122) { //handle case where shift forward requires jumping back to the start of upper case letters
+
+            ciphered[count] = (original[count]) + shift_TO_UPPER + shift_TWO; //shift (backwards) to upper case letters by subtracting 58; then shift by 2.
+            cout << ciphered[count];
+        }
+    }
+
+    cout << "'";
+
+
+
+    cout << endl << endl << "\n\n\nThe program has finished execution....now exiting...thank you....\n\n";
+    system("pause");
+
+    return 0;
+}
+
+

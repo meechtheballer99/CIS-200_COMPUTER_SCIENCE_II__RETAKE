@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30711.63
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CIS-200-LAB_7-DemetriusJohnson", "CIS-200-LAB_7-DemetriusJohnson.vcxproj", "{6BF7AA03-8EE0-4DDB-B7A1-586C8F8AE4AF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6BF7AA03-8EE0-4DDB-B7A1-586C8F8AE4AF}.Debug|x64.ActiveCfg = Debug|x64
+		{6BF7AA03-8EE0-4DDB-B7A1-586C8F8AE4AF}.Debug|x64.Build.0 = Debug|x64
+		{6BF7AA03-8EE0-4DDB-B7A1-586C8F8AE4AF}.Debug|x86.ActiveCfg = Debug|Win32
+		{6BF7AA03-8EE0-4DDB-B7A1-586C8F8AE4AF}.Debug|x86.Build.0 = Debug|Win32
+		{6BF7AA03-8EE0-4DDB-B7A1-586C8F8AE4AF}.Release|x64.ActiveCfg = Release|x64
+		{6BF7AA03-8EE0-4DDB-B7A1-586C8F8AE4AF}.Release|x64.Build.0 = Release|x64
+		{6BF7AA03-8EE0-4DDB-B7A1-586C8F8AE4AF}.Release|x86.ActiveCfg = Release|Win32
+		{6BF7AA03-8EE0-4DDB-B7A1-586C8F8AE4AF}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7C8FEA91-CA66-4EE6-A09E-B76CA3794A1D}
+	EndGlobalSection
+EndGlobal
