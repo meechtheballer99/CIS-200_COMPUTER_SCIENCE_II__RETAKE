@@ -1,0 +1,113 @@
+//Author: Demetrius E Johnson
+//Date: 04 MAR 2021
+//Last Modification Date: 03-04-2021
+//Purpose: write a program using a class that can represent imaginary numbers
+
+#include "Complex.h"
+
+//A complex number is a number of the form: a + b * i,  where a and b are number of type double, and i is a number that represents sqrt(-1). 
+
+
+Complex::Complex() { real = 0; imaginary = 0; }//Include a default constructor that initializes an object to 0 + 0 * i.
+
+Complex::Complex(double Re, double Im) { real = Re; imaginary = Im; } //Include a constructor with two parameters of type double that can be used to set the member variables of an object to any values
+
+Complex::Complex(double realPart) { real = realPart; imaginary = 0; }//Include a constructor with one parameter of type double called realPart and define the constructor so that the object will be initialized to realPart + 0 * i. 
+
+Complex::Complex(const Complex& inputObj) {
+	
+	this->real = inputObj.real; 
+	this->imaginary = inputObj.imaginary; 
+
+} //include a copy constructor
+
+
+//Overload all the following operators so that they correctly apply to the type Complex class:
+
+Complex& Complex::operator=(const Complex& inputObj){
+	
+	this->real = inputObj.real;
+	this->imaginary = inputObj.imaginary;
+
+	return *this;
+
+} //assignment operator
+
+bool Complex::operator==(Complex& inputObj){
+
+	return (((this->real == inputObj.real) && (this->imaginary == inputObj.imaginary)) ? true : false); //used the conditional "?" operator
+
+
+} //comparison operator
+
+Complex Complex::operator+(Complex& inputObj){
+
+	Complex sumObj;
+
+	sumObj.real = this->real + inputObj.real;
+	sumObj.imaginary = this->imaginary + inputObj.imaginary;
+	return sumObj;
+}
+
+Complex Complex::operator-(Complex& inputObj){
+
+	Complex difObj;
+
+	difObj.real = this->real - inputObj.real;
+	difObj.imaginary = this->imaginary - inputObj.imaginary;
+	return difObj;
+
+}
+
+Complex Complex::operator*(Complex& inputObj){ //(x + y * i) * (u+v * i) = REAL_PART-->(x*u – y*v) + IMAGINARY_PART-->(x*v + y*u) * i  //xy-->original obj, uv -->multiplier (rh side)
+
+	Complex multObj;
+
+	multObj.real = (this->real * inputObj.real) - (this->imaginary * inputObj.imaginary) ;
+	multObj.imaginary = (this->real * inputObj.imaginary) + (this->imaginary * inputObj.real);
+
+	return multObj;
+} //mult operator
+
+Complex Complex::operator/(Complex& inputObj) { // REAL_PART-->(ux + vy)/(X^2 + Y^2)   +   IMAGINARY_PART--> [(vx - uy)/(x^2 + y^2)] * i   //uv --> original obj, xy--> divisor (rh side)
+
+	Complex divObj;
+
+	divObj.real = ((this->real * inputObj.real) + (this->imaginary * inputObj.imaginary)) / ((inputObj.real * inputObj.real) + (inputObj.imaginary * inputObj.imaginary));
+	divObj.imaginary = ((this->imaginary * inputObj.real) - (this->real * inputObj.imaginary)) / ((inputObj.real * inputObj.real) + (inputObj.imaginary * inputObj.imaginary));
+
+	return divObj;
+} //div operator
+
+ ostream& operator<<(ostream& os, const Complex& outputObj){ //note that for the definition I don't need keyword "friend"; only needed it for the declaration
+
+	 if (outputObj.imaginary >= 0) {
+		 os << outputObj.real << " + " << outputObj.imaginary << "*i";
+	 }
+	 else {
+		 os << outputObj.real << " - " << -1 * outputObj.imaginary << "*i"; //multiplied by -1 so that it does not output - -# since I already applied the - sign
+	 }
+
+	 return os;
+
+} //output operator for cout or fstream out (ostream)
+
+Complex& Complex::operator++(){ //prefix operator:  add both real and imaginary parts by 1
+
+	real++;
+	imaginary++;
+
+	return *this;
+
+} //prefix operator
+
+Complex Complex::operator++(int){ //postfix operator: add both real and imaginary parts by 1
+
+	Complex originalValues = *this; //temporary object to hold the original values held by the object that called this function
+
+	this->real++;
+	this->imaginary++;
+
+	return originalValues;
+
+} //postfix operator
