@@ -1,0 +1,304 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<!-- saved from url=(0056)http://www.cs.fsu.edu/~myers/cgs4406/notes/pointers.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   
+   <meta name="Author" content="Bob Myers">
+   <meta name="GENERATOR" content="Mozilla/4.51 [en] (WinNT; I) [Netscape]">
+   <title>Pointer Basics and Pass-By-Address</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF">
+<b><u><font size="+2">Pointer Basics and Pass-by-Address</font></u></b>
+<br>&nbsp;
+<h3>
+What is a Pointer?</h3>
+A pointer is a variable that stores a memory address.&nbsp; Pointers are
+used to store the addresses of other variables or memory items.&nbsp; Pointers
+are very useful for another type of parameter passing, usually referred
+to as <b>Pass By Address</b>.&nbsp; Pointers are essential for dynamic
+memory allocation.
+<h3>
+Declaring pointers:</h3>
+Pointer declarations use the * operator.&nbsp; They follow this format:
+<pre>  <i>typeName * variableName;</i>
+
+ int n;        // declaration of a variable n 
+ int * p;      // declaration of a pointer, called p 
+</pre>
+
+<p>In the example above, p is a pointer, and its type will be specifically
+be referred to as "pointer to int", because it stores the address of an
+integer variable.
+</p><p>Note:&nbsp; Sometimes the notation is confusing, because different textbooks
+place the * differently.&nbsp; The three following declarations are equivalent:
+</p><pre> int *p; 
+ int* p; 
+ int * p; 
+</pre>
+
+<p>All three of these declare the variable p as a pointer to an int.
+</p><h3>
+De-referencing pointers:</h3>
+Once a pointer is declared, you can refer to the thing it points to by
+<b>"dereferencing
+the pointer"</b>.
+<pre> int * p;
+</pre>
+
+<p>Now that p is declared as a pointer to an int, the variable p stores
+the address.&nbsp; To dereference the pointer, use the * operator:
+</p><pre> cout &lt;&lt; p;        // this will print out the address stored in p 
+ cout &lt;&lt; *p;       // this will print out the data being pointed to 
+</pre>
+
+<p>The notation *p now refers to the <b>target</b> of the pointer p.
+</p><p>Note:&nbsp; The notation can be a little confusing. If you see
+the * in a declaration statement, a pointer is being declared for the first
+time. AFTER that, when you see the * on the pointer name, you are
+dereferencing the pointer to get to the target.
+</p><p>Pointers don't always have valid targets. If the pointer is storing
+a 0, for instance, this is known as the <b>NULL</b> pointer.&nbsp; It never
+has a valid target.&nbsp; If you try to dereference a pointer that does
+not have a valid target, your program will experience an error called a
+"segmentation fault" and will probably crash.&nbsp; The null pointer is
+the only <b>literal</b> number you may assign to a pointer, since it is
+often used to initialize pointers or to be used as a signal. You
+may NOT assign arbitrary numbers to pointer variables:
+</p><pre> int * p = 0;    // okay.  assignment of null pointer to p 
+ int * q; 
+ q = 0;          // okay.  null pointer again. 
+ int * z; 
+ z = 900;        // BAD!  cannot assign other literals to pointers! 
+</pre>
+
+<h3>
+Pointer types:</h3>
+Although all pointers are addresses (and therefore represented similarly
+in data storage), we want the type of the pointer to indicate what is being
+pointed to.&nbsp; Therefore, C++ treats pointers to different types AS
+different types themselves.
+<pre> int * ip; 
+ char * cp; 
+ double * dp; 
+</pre>
+
+<p>These three pointer variables (ip, dp, cp) are all considered to have
+different types, so assignment between any of them is illegal.&nbsp; The
+automatic type coercions that work on regular numerical data types <b>do
+not apply</b>:
+</p><pre> ip = dp;        // ILLEGAL 
+ dp = cp;        // ILLEGAL 
+ ip = cp;        // ILLEGAL 
+</pre>
+
+<p>As with other data types, you can always force a coercion by re-casting
+the data type.&nbsp; Be careful that you know what you are doing, though,
+if you do this!
+</p><pre> ip = static_cast&lt;int *&gt;(dp); 
+</pre>
+
+<h3>
+The "address of" operator:</h3>
+There is another use of the &amp; operator.&nbsp; We saw that when it is
+used in a declaration, it creates a <b>reference </b>variable. When
+the &amp; is used in regular statements (not reference declarations), the
+operator means "address of". Example:
+<pre> int n; 
+ cout &lt;&lt; &amp;n;    // this prints out &amp;n, the "address of n". 
+</pre>
+
+<p>This operator is useful in attaching pointers to data items! Consider
+the following:
+</p><pre> int n;        // integer 
+ int * p;      // pointer to an integer 
+</pre>
+
+<p>At this point, we don't know what p is pointing to. It might not
+even be pointing to a valid target at the moment! It contains some
+random value from memory right now, because we haven't initialized it.
+However, we can point p at n by using the &amp; operator.
+</p><pre> p = &amp;n;        // assigns the "address of n" to the pointer p 
+</pre>
+<br>
+
+<h3>
+Pass By Address:</h3>
+We've seen Pass By Value and Pass By Reference.&nbsp; If you declare a
+formal parameter of a function as a pointer type, you are passing that
+parameter by its address.&nbsp; The pointer is copied, but not the data
+it points to.&nbsp; So, Pass By Address offers another method of allowing
+us to change the original argument of a function (like with Pass By Reference).&nbsp;
+Don't pass in the argument itself -- just pass in its address.
+<p>Example:
+</p><pre> void SquareByAddress(int * n) 
+ {  *n = (*n) * (*n);  } 
+
+ int main() 
+ { 
+   int num = 4; 
+   cout &lt;&lt; "Original = " &lt;&lt; num &lt;&lt; '\n'; 
+   SquareByAddress(&amp;num); 
+   cout &lt;&lt; "New value = " &lt;&lt; num &lt;&lt; '\n'; 
+ } 
+</pre>
+
+<h3>
+Pointers and Arrays:</h3>
+When you declare an array normally, you get a pointer for free.&nbsp; The
+<b>name</b> of the array acts as a pointer to the first element of the 
+array.
+<pre> int list[10];   // the variable list is a pointer 
+                 // to the first integer in the array 
+ int * p;        // p is a pointer.  It has the same type as list. 
+ p = list;       // legal assignment.  Both pointers to ints. 
+</pre>
+
+<p>In the above code, the address stored in list has been assigned to p.&nbsp;
+Now both pointers point to the first element of the array.&nbsp; Now, we
+could actually use p as the name of the array!
+</p><pre> list[3] = 10; 
+ p[4] = 5; 
+ cout &lt;&lt; list[6]; 
+ cout &lt;&lt; p[6]; 
+</pre>
+
+<h4>
+Pointer Arithmetic</h4>
+Another useful feature of pointers is pointer arithmetic.&nbsp; In the
+above array example, we referred to an array item with p[6].&nbsp; We could
+also say *(p+6).&nbsp; When you add to a pointer, you do not add the literal
+number.&nbsp; You add that number of units, where a unit is the type being
+pointed to.&nbsp; For instance, p + 6 in the above example means to move
+the pointer forward 6 integer addresses.&nbsp; Then we can dereference
+it to get the data&nbsp; *(p + 6).
+<p>What pointer arithmetic operations are allowed?
+</p><li>
+A pointer can be incremented <tt>(++)</tt> or decremented <tt>(--)</tt></li>
+
+<li>
+An integer may be added to a pointer <tt>(+ or +=)</tt></li>
+
+<li>
+An integer may be subtracted from a pointer <tt>(- or -=)</tt></li>
+
+<li>
+One pointer may be subtracted from another</li>
+
+<p><br>Most often, pointer arithmetic is used in conjunction with arrays.
+</p><p>Example:&nbsp; Suppose ptr is a pointer to an integer, and ptr stores
+the address 1000.&nbsp; Then the expression (ptr + 5) does not give 1005
+(1000+5).&nbsp; Instead, the pointer is moved 5 integers (ptr + (5 * size-of-an-int)).&nbsp;
+So, if we have 4-byte integers, (ptr+5) is 1020 (1000 + 5*4).
+</p><p>
+</p><hr width="100%">This code example illustrates the values stored in pointers
+and how the addresses line up for arrays:&nbsp; <a href="http://www.cs.fsu.edu/~myers/cgs4406/examples/pointers/pointers.cpp">pointers.cpp</a>
+<br>
+<hr width="100%">
+
+<h3>
+Pass By Address with arrays:</h3>
+The fact that an array's name <b>is</b> a pointer allows easy passing of
+arrays in and out of functions.&nbsp; When we pass the array in by its
+name, we are passing the <b>address</b> of the first array element.&nbsp;&nbsp;
+So, the expected parameter is a pointer.&nbsp; Example:
+<pre>// This function receives two integer pointers, which can be names of integer arrays. 
+   int Example1(int * p, int * q); 
+</pre>
+
+<p>When an array is passed into a function (by its name), any changes made
+to the array elements do affect the original array, since only the array
+<b>address</b>
+is copied (not the array elements themselves).
+</p><pre> void Swap(int * list, int a, int b) 
+ { 
+   int temp = list[a]; 
+   list[a] = list[b]; 
+   list[b] = temp; 
+ } 
+</pre>
+
+<p>This Swap function allows an array to be passed in by its name only.&nbsp;
+The pointer is copied but not the entire array.&nbsp; So, when we swap
+the array elements, the changes are done on the original array.&nbsp; Here
+is an example of the call from outside the function:
+</p><pre> int numList[5] = {2, 4, 6, 8, 10}; 
+ Swap(numList, 1, 4);        // swaps items 1 and 4 
+</pre>
+
+<p>Note that the Swap function prototype could also be written like this:
+</p><pre> void Swap(int list[], int a, int b);
+</pre>
+
+The array notation in the prototype does not change anything.  An array 
+passed into a function is always passed by address, since the array's name 
+IS a variable that stores its address (i.e. a pointer).
+
+<p>Pass-by-address can be done in returns as well -- we can 
+return the address of an array.
+</p><pre> int * ChooseList(int * list1, int * list2) 
+ { 
+   if (list1[0] &lt; list2[0]) 
+     return list1; 
+   else 
+     return list2;    // returns a copy of the address of the array 
+ } 
+</pre>
+
+<p>And an example usage of this function:
+</p><pre> int numbers[5] = {1,2,3,4,5}; 
+ int numList[3] = {3,5,7}; 
+ int * p; 
+ p = ChooseList(numbers, numList); 
+</pre>
+
+<p>Here is a sample program that illustrates the differences between passing
+by value, reference, and address: <a href="http://www.cs.fsu.edu/~myers/cgs4406/examples/pointers/pass.cpp">
+pass.cpp</a>.
+
+</p><h3>
+Const:</h3>
+The keyword <b>const</b> can be used in parameter passing for pointers
+in a similar way as for references. It is used for a similar situation
+-- it allows parameter passing without copying anything but an address,
+but protects against changing the data (for functions that should not change
+the original)
+<p>The format:&nbsp;&nbsp;&nbsp; <tt>const typeName * v</tt>
+<br>This establishes v as a pointer to an object that cannot be changed
+through the pointer v.
+<br>Note: This does <b>not</b> make v a constant! The pointer v <b>can</b> 
+be changed. But, the <b>target</b> of v can never be changed.
+
+<br>Example:
+</p><pre>  int Function1(const int * list);  // the target of list can't 
+                                    // be changed in the function 
+</pre>
+
+<p>Note: The pointer can be made constant, too. Here are the different 
+combinations:
+
+</p><p>1) Non-constant pointer to non-constant data
+</p><pre>  int * ptr;
+</pre>
+
+<p>2) Non-constant pointer to constant data
+</p><pre>  const int * ptr;
+</pre>
+
+<p>3) Constant pointer to non-constant data
+</p><pre>  int x = 5;
+  int * const ptr = &amp;x;   // must be initialized here 
+</pre>
+
+<p>An array name is this type of pointer - a constant pointer (to 
+non-constant data).
+
+</p><p>4) Constant pointer to constant data
+</p><pre>  int x = 5;
+  const int * const ptr = &amp; x;
+</pre>
+
+<p>
+</p><hr width="100%">
+<br><a href="http://www.cs.fsu.edu/~myers/deitel4/ch05">Code examples from Chapter 5</a>
+
+
+</body></html>
